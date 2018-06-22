@@ -14,7 +14,7 @@ In the future it will probably be formatted into a class in the future
 def read_imput(file_name):
     with open(file_name, 'r') as input_file:
         input_values = yaml.load(input_file)
-        temperature_profile = input_values.pop['temperatures']
+        temperature_profile = input_values.pop('temperatures')
         camera_settings = input_values
     return camera_settings, temperature_profile
 
