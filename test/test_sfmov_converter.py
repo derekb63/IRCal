@@ -1,9 +1,12 @@
-from ..tools import  sfmov_converter as sc
+from ..tools import sfmov_converter as sc
 import os
 import numpy as np
 import pytest
 
-os.chdir('test/test_files/')
+print(os.path.curdir)
+project_path = os.path.abspath('.')
+file_path = os.path.join(project_path, '\\test\\test_files')
+os.chdir(file_path)
 
 def test_scrape_inc():
     filepath = os.path.abspath('.')

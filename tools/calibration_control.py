@@ -1,8 +1,8 @@
-from black_body_interface import BlackBodyCommands as BSC
-from image_analysis import ImageTools as imgt
-import pyyaml
+from .black_body_interface import BlackBodyCommands as BSC
+from .image_analysis import ImageTools as imgt
+import yaml
 import time
-import scipy.optimize.curve_fit as fit_tool
+from scipy.optimize import curve_fit as fit_tool
 
 '''
 Control code to execute a black body calibration of an infrared thermography device
@@ -12,22 +12,26 @@ In the future it will probably be formatted into a class in the future
 '''
 
 def read_imput(file_name):
+    with open(file_name, 'r') as input_file:
+        input_values = yaml.load(input_file)
+        temperature_profile = input_values.pop['temperatures']
+        camera_settings = input_values
     return camera_settings, temperature_profile
 
 def verify_connections(camera_object, blackbody_object):
-      """
+    """
          Runs the commands that verify connection to the devices.
          The methods called will raise errors if unsuccessful
-      """
-        blackbody_object.configure_port()
-        camera_object.verify_connection()
-        return None
+    """
+    blackbody_object.configure_port()
+    camera_object.verify_connection()
+    return None
 
 def configure_camera(camera_object, camera_settings):
     camera_object.setup(camera_settings)
     return None
 
-def calibrate(camera_object, blackbody_object, temperature_profile, std_threshold):
+def calibrate(camera_object, blackbody_object, temperature_profile, std_threshold, image_folder):
     '''
     Perform the camera calibration procedure based on the inputs
     :param camera_object:
@@ -71,10 +75,3 @@ def correlate_counts(image_folder, temperatures):
 def cool_down(blackbody_object):
     # cool down the blackbody to room temperature
     blackbody_object.cool_down()
-
-
-
-
-
-
-
