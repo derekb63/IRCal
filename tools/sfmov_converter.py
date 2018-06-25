@@ -44,10 +44,9 @@ class SfmovTools:
 
     @staticmethod
     def path_handling(path):
-        """ TODO: Need to remove and replace function with os package for path handling across operating systems"""
-        path.replace('\\', '/')
-        if path[0] == '/':
-            path = '/' + path
+        path.replace('\\', os.path.sep)
+        if path[0] == os.path.sep:
+            path = os.path.sep + path
         return path
 
     @staticmethod

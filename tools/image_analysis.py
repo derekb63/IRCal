@@ -191,4 +191,5 @@ class ImageTools():
                width_x * (y-center_y)**2
 
     def background_subratction(self):
+        # TODO: Determine if background subtraction is necessary
         return None
