@@ -8,6 +8,7 @@ modified by Derek Bean
 import numpy as np
 import h5py
 import os
+import glob
 
 
 class SfmovTools:
@@ -17,6 +18,7 @@ class SfmovTools:
 
     TODO: add functionality to get the data from the pod files and the extra data from the inc files
     TODO: Finish writing tests especially ones that check to make sure the data is converted correctly
+    TODO: Dead pixel correction
     """
     def __init__(self, opendir, savedir, fname):
         """
@@ -54,12 +56,26 @@ class SfmovTools:
         """Returns the file extension that are used in the class"""
         return {'sfmov': '.sfmov', 'inc': '.inc', 'hdf5': '.hdf5'}
 
+    def find_files(directory, recursive=False):
+        """
+        :param directory: folder/directory to look for sfmov files
+                            directory must be an absolute path to work in windows
+                recursive: True looks in all subfolders inside directory
+        :return: list of all the filenames in the directory
+        """
+        os.chdir(directory)
+        files = glob.glob('./*.sfmov', recursive=recursive)
+        file_list = [os.path.splitext(x)[0] for x in files]
+        return file_list
+
     def open_file(self, extension):
         """
         Open and return a file object based on the input path
 
         Input:
         extension: a string with the
+
+        Output: file object
         """
         return open(os.path.join(self.opendir, self.file + self.extensions()[extension]),
                     'rb')
